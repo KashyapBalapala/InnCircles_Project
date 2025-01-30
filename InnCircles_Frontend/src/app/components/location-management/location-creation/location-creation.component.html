@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>Location Management</h2>
+ 
+  <div class="add-location-type">
+    <input type="text" [(ngModel)]="newLocationName" placeholder="Enter new location type" />
+    <button (click)="addlocation()">Add</button>
+  </div>
+
+  <div class="location-types-list">
+    <ul *ngIf="locations">
+      <li *ngFor="let location of locations">
+        <span *ngIf="!editingState[location._id]" >{{ locationType.name + "-" + location.name }}</span>
+        <input *ngIf="editingState[location._id]" type="text" [(ngModel)]="location.name" />
+        <div>
+          <button class="button" (click)="toggleEdit(location)">{{ editingState[location._id] ? 'Save' : 'Edit' }}</button>
+          <button class="button delete" (click)="deletelocation(location._id)">Delete</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="sidebar">
+    <h3>Location Types</h3>
+    <ul>
+      <li *ngFor="let locationType of locationTypes" (click)="selectLocationType(locationType)">
+        {{ locationType.name }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <h3>Work Packages for: {{ selectedLocationType?.name || 'Select a Location Type' }}</h3>
+
+    <!-- Add Work Package -->
+    <div *ngIf="selectedLocationType" class="add-work-package">
+      <input [(ngModel)]="newWorkPackageName" placeholder="Enter new work package name" />
+      <button mat-button (click)="addWorkPackage()">Add Work Package</button>
+    </div>
+
+    <!-- List of Work Packages -->
+    <div class="work-packages-list">
+      <ul>
+        <li *ngFor="let workPackage of workPackages">
+          <!-- Display input field when editing -->
+          <div *ngIf="editingWorkPackage?._id === workPackage._id">
+            <input [(ngModel)]="workPackage.name" placeholder="Edit work package name" />
+            <button mat-button (click)="saveWorkPackage(workPackage)">Save</button>
+            <button mat-button (click)="cancelEdit()">Cancel</button>
+          </div>
+
+          <!-- Display work package name when not editing -->
+          <span *ngIf="editingWorkPackage?._id !== workPackage._id">
+            {{ workPackage.name }}
+          </span>
+
+          <!-- Edit and Delete Buttons -->
+          <button mat-button *ngIf="editingWorkPackage?._id !== workPackage._id" (click)="editWorkPackage(workPackage)">Edit</button>
+          <button mat-button (click)="deleteWorkPackage(workPackage)">Delete</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

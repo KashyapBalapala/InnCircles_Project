@@ -1,0 +1,7 @@
+<div class="container">
+    <div class="options-grid">
+        <div class="option-box" (click)="navigate(option.title)" *ngFor="let option of options">
+            <h3 class="option-title">{{ option.title }}</h3>
+        </div>
+    </div>
+</div>

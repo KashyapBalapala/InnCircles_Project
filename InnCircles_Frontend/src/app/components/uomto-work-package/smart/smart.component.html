@@ -1,0 +1,9 @@
+
+
+
+<div *ngIf="isFirstScreen">
+    <app-uom-to-wp (locationTypeEmitter)="changeScreen($event)"></app-uom-to-wp> 
+</div>
+<div *ngIf="!isFirstScreen">
+    <app-quantities [locationType]="property"></app-quantities>
+</div>

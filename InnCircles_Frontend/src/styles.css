@@ -1,0 +1,48 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+body {
+    margin: 0;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Global PrimeNG Accordion Styles */
+p-accordion {
+    .p-accordion-header {
+      background-color: #f1f1f1 !important; /* Primary color */
+      color: #000000 !important;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 10px 15px;
+      transition: all 0.3s ease-in-out;
+    }
+  
+    .p-accordion-header:hover {
+      background-color: #e6e6e6 !important; /* Darker shade on hover */
+    }
+  
+    .p-accordion-header .p-accordion-header-link {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 12px;
+    }
+  
+    /* Accordion Content */
+    .p-accordion-content {
+      background: #f8f9fa; /* Light gray background */
+      border: 1px solid #dcdcdc;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 14px;
+      color: #333;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+    }
+  
+    /* Adjust spacing */
+    .p-accordion-tab {
+      margin-bottom: 10px;
+    }
+  }
+  

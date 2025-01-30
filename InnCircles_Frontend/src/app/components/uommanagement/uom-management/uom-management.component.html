@@ -1,0 +1,40 @@
+<div class="container">
+  <h2>Units of Measurement Management</h2>
+
+  <!-- Add New UOM -->
+  <div class="add-uom">
+    <input [(ngModel)]="newUOM" placeholder="Enter UOM Name (e.g., Square Meter)" />
+    <input [(ngModel)]="newUOMAbbreviation" placeholder="Enter Abbreviation (e.g., sq.m)" />
+    <button mat-button (click)="addUOM()">Add UOM</button>
+  </div>
+
+  <!-- List of UOMs -->
+  <div class="uom-list">
+    <ul>
+      <li *ngFor="let uom of uoms">
+        <!-- Editable fields when editing -->
+        <div *ngIf="editingUOM && editingUOM._id === uom._id">
+          <input [(ngModel)]="uom.name" placeholder="Edit UOM Name" />
+          <input [(ngModel)]="uom.abbreviation" placeholder="Edit Abbreviation" />
+        </div>
+
+        <!-- Display UOM Name & Abbreviation when not editing -->
+        <span *ngIf="!editingUOM || editingUOM._id !== uom._id" class="chip">
+          {{ uom.name }} ({{ uom.abbreviation }})
+        </span>
+          
+        <!-- Buttons -->
+        <div class="button-container">
+          <!-- Edit Button -->
+          <button mat-button class="edit-btn" *ngIf="editingUOM?._id !== uom._id" (click)="editUOM(uom)">Edit</button>
+
+          <!-- Save Button -->
+          <button mat-button class="edit-btn" *ngIf="editingUOM?._id === uom._id" (click)="saveUOM(uom)">Save</button>
+
+          <!-- Delete Button -->
+          <button mat-button class="delete-btn" (click)="deleteUOM(uom)">Delete</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

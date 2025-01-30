@@ -1,0 +1,38 @@
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f4f8; 
+  }
+  
+  .options-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    max-width: 800px; 
+    width: 100%;
+  }
+  
+  .option-box {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  .option-box:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  .option-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333; 
+  }
+  

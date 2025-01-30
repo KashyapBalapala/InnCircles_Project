@@ -1,0 +1,76 @@
+<div class="uom-container">
+  <h2>Assign UOM to Work Packages</h2>
+
+  <!-- Location Type Selection -->
+  <div class="form-container">
+    <div class="custom-form-field">
+      <label for="locationType">Select Location Type</label>
+      <select id="locationType" [(ngModel)]="selectedLocationType" (change)="onLocationTypeChange()">
+        <option *ngFor="let type of locationTypes" [value]="type._id">{{ type.name }}</option>
+      </select>
+    </div>
+    <div>
+      <button class="save-btn" (click)="changeScreen()">Set Quantities</button>
+    </div>
+  </div>
+</div>
+
+<!-- Work Packages List -->
+<div class="uom-container">
+  <div *ngIf="workPackages.length" class="work-packages-container">
+    <h3>Work Packages</h3>
+    <div class="work-package-card" *ngFor="let wp of workPackages">
+      <div class="work-package-header">
+        <h4>{{ wp.name }}</h4>
+      </div>
+
+      <div class="work-package-body">
+        <p-chips [(ngModel)]="wp.uoms" [separator]="'Enter'" (onRemove)="removeUom(wp, $event)">
+          <ng-template let-uom pTemplate="item">
+            {{ uom.name }} ({{ uom.abbreviation }})
+          </ng-template>
+        </p-chips>
+      </div>
+      
+      <!-- Open Dialog Button -->
+      <div class="work-package-footer">
+        <button class="edit-btn" (click)="openDialog(wp)">Edit UOMs</button>
+      </div>   
+    </div>
+  </div>
+</div>
+
+<!-- Dialog for Updating UOMs -->
+<p-dialog [(visible)]="displayDialog" modal="true" header="Update UOMs">
+  <div *ngIf="selectedWorkPackage">
+    <h4>{{ selectedWorkPackage.name }}</h4>
+    
+    <div class="uom-selection">
+      <label>Select UOM:</label>
+      <div class="custom-form-field">
+        <!-- <label for="assignUom">Assign UOM</label> -->
+        <select [(ngModel)]="selectedUomId" (change)="assignUom(selectedUomId)">
+          <option value="" disabled>Select UOM</option>
+          <option *ngFor="let uom of availableUoms" [value]="uom._id">
+            {{ uom.name }} ({{ uom.abbreviation }})
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="assigned-uoms">
+      <h5>Assigned UOMs:</h5>
+      <ul>
+        <li *ngFor="let uom of selectedWorkPackage.uoms">
+          {{ uom.name }} ({{ uom.abbreviation }}) 
+          <i class="pi pi-times" (click)="removeUom(selectedWorkPackage, uom)" style="cursor:pointer; margin-left: 10px;"></i>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button class="save-btn" (click)="saveUoms()">Save</button>
+    <button class="cancel-btn" (click)="displayDialog = false">Cancel</button>
+  </ng-template>
+</p-dialog>

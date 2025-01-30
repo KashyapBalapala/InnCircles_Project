@@ -1,0 +1,6 @@
+<div *ngIf="isFirstScreen">
+    <app-location-types (locationTypeEmitter)="changeScreen($event)"></app-location-types>
+</div>
+<div *ngIf="!isFirstScreen">
+    <app-location-creation [locationType]="locationType"></app-location-creation>
+</div>
