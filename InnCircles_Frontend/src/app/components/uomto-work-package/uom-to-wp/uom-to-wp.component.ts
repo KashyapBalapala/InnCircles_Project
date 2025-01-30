@@ -39,7 +39,7 @@ export class UomToWpComponent {
       .getAllLocationTypes()
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
           return of([]);
         })
       )
@@ -53,7 +53,7 @@ export class UomToWpComponent {
       .getUom()
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
           return of([]);
         })
       )
@@ -67,7 +67,7 @@ export class UomToWpComponent {
       .getWpUoms(this.selectedLocationType)
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
           return of([]);
         })
       )
@@ -97,7 +97,7 @@ export class UomToWpComponent {
       .deleteUOMToWP(wp._id, uom.value._id)
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
           return of([]);
         })
       )
@@ -115,7 +115,7 @@ export class UomToWpComponent {
       .addMultipleUoms(save, this.selectedWorkPackage._id)  
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
           return of([]);
         })
       )

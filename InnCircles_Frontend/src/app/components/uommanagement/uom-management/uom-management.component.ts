@@ -28,7 +28,7 @@ export class UOMManagementComponent {
         .getUom()
         .pipe(
           catchError((error) => {
-            alert('An error occurred: ' + error.message);
+            alert('An error occurred: ' + error?.error?.message);
             return of([]);
           })
         )
@@ -48,7 +48,7 @@ export class UOMManagementComponent {
           .addUom(uom)
           .pipe(
             catchError((error) => {
-              alert('An error occurred: ' + error.message);
+              alert('An error occurred: ' + error?.error?.message);
               return of([]);
             })
           )
@@ -71,7 +71,7 @@ export class UOMManagementComponent {
     .deleteUom(uom._id)
     .pipe(
       catchError((error) => {
-        alert('An error occurred: ' + error.message);
+        alert('An error occurred: ' + error?.error?.message);
         return of([]);
       })
     )
@@ -85,7 +85,7 @@ export class UOMManagementComponent {
     .editUom(uom)
     .pipe(
       catchError((error) => {
-        alert('An error occurred: ' + error.message);
+        alert('An error occurred: ' + error?.error?.message);
         return of([]);
       })
     )

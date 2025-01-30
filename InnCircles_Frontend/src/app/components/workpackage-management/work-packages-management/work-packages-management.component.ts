@@ -34,7 +34,7 @@ export class WorkPackagesManagementComponent {
       .getAllLocationTypes()
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
           return of([]);
         })
       )
@@ -48,7 +48,8 @@ export class WorkPackagesManagementComponent {
       .getWorkPackagesByType(id)
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
+          console.log(error);
           return of([]);
         })
       )
@@ -73,7 +74,7 @@ export class WorkPackagesManagementComponent {
       .addWorkPackage(wp)
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
           return of([]);
         })
       )
@@ -92,7 +93,7 @@ export class WorkPackagesManagementComponent {
       .updateWorkPackage(workPackage)
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
           return of([]);
         })
       )
@@ -111,7 +112,7 @@ export class WorkPackagesManagementComponent {
       .deleteWorkPackage(workPackage._id)
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
           return of([]);
         })
       )

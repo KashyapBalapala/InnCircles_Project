@@ -35,7 +35,7 @@ export class QuantitiesComponent {
             .getAllLocations(this.locationType)
             .pipe(
               catchError((error) => {
-                alert('An error occurred: ' + error.message);
+                alert('An error occurred: ' + error?.error?.message);
                 return of([]);
               })
             )
@@ -51,7 +51,7 @@ export class QuantitiesComponent {
       .getWpUoms(this.locationType)
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
           return of([]);
         })
       )
@@ -66,7 +66,7 @@ export class QuantitiesComponent {
       .getLocationQuantity(location._id)
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
           return of([]);
         })
       )
@@ -106,7 +106,7 @@ export class QuantitiesComponent {
       .updateQuantity(quantityData, location._id)
       .pipe(
         catchError((error) => {
-          alert('An error occurred: ' + error.message);
+          alert('An error occurred: ' + error?.error?.message);
           return of([]);
         })
       )

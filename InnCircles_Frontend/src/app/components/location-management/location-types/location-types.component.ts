@@ -31,7 +31,7 @@ export class LocationTypesComponent {
     .getAllLocationTypes()
     .pipe(
       catchError((error) => {
-        alert('An error occurred: ' + error.message);
+        alert('An error occurred: ' + error?.error?.message);
         return of([]);
       })
     )
@@ -60,7 +60,7 @@ export class LocationTypesComponent {
     .createNewLocationType(locationType)
     .pipe(
       catchError((error: any) => {
-        alert('An error occurred: ' + error.message);
+        alert('An error occurred: ' + error?.error?.message);
         return of(null);
       })
     )
@@ -83,7 +83,7 @@ export class LocationTypesComponent {
     .editLocationType(locationType._id, locationType)
     .pipe(
       catchError((error: any) => {
-        alert('An error occurred: ' + error.message);
+        alert('An error occurred: ' + error?.error?.message);
         return of(null);
       })
     )
@@ -98,7 +98,7 @@ export class LocationTypesComponent {
     .deleteLocationType(_id)
     .pipe(
       catchError((error: any) => {
-        alert('An error occurred: ' + error.message);
+        alert('An error occurred: ' + error?.error?.message);
         return of(null);
       })
     )
