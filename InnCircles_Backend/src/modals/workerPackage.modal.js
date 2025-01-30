@@ -1,1 +1,0 @@
-const workerPackages = require('./workerPackage.mongo');
