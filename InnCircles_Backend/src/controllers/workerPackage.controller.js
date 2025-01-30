@@ -3,16 +3,17 @@ const workPackagesSchema = require("../modals/workerPackage.mongo");
 const UOMToWorkPackage = require("../modals/uomToWorkPackages.mongo");
 const Quantity = require("../modals/quantity.mongo");
 const Location = require("../modals/location.mongo");
+const locationTypes = require("../modals/locationType.mongo");
 
 async function httpAddWorkPackage(req, res) {
   try {
     const { name, locationTypeId, description } = req.body;
-    const locationTypeExsists = await locationTypes.findById(id);
+    const locationTypeExsists = await locationTypes.findById(locationTypeId);
     if (!locationTypeExsists) {
       return res.status(404).json({ message: "LocationType not found." });
     }
 
-    const existingType = await workPackagesSchema.findOne({ name });
+    const existingType = await workPackagesSchema.findOne({ name, locationTypeId });
         if (existingType) {
           return res.status(400).json({ message: "WorkPackage already exists." });
         }
@@ -61,7 +62,7 @@ async function httpUpdateWorkPackage(req, res) {
     const { name, locationTypeId, description } = req.body;
 
     if (locationTypeId) {
-      const locationTypeExists = await locationTypes.findById(id);
+      const locationTypeExists = await locationTypes.findById(locationTypeId);
       if (!locationTypeExists) {
         return res.status(404).json({ message: "LocationType not found." });
       }

@@ -1,5 +1,6 @@
 const Location = require("../modals/location.mongo");
 const LocationType = require("../modals/locationType.mongo");
+const Quantity = require("../modals/quantity.mongo");
 
 async function httpAddLocation(req, res) {
   try {
@@ -73,6 +74,13 @@ async function httpUpdateLocation(req, res) {
 async function httpDeleteLocation(req, res) {
   try {
     const { id } = req.params;
+
+    const isUsedInQuantities = await Quantity.exists({ locationId: id });
+    if (isUsedInQuantities) {
+      return res.status(400).json({
+        message: "Cannot delete Location. It has assigned quantities.",
+      });
+    }
 
     const deletedLocation = await Location.findByIdAndDelete(id);
     if (!deletedLocation) {
