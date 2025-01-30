@@ -9,6 +9,10 @@ async function httpAddLocation(req, res) {
     if (!locationTypeExists) {
       return res.status(404).json({ message: "LocationType not found." });
     }
+    const existingType = await Location.findOne({ name });
+        if (existingType) {
+          return res.status(400).json({ message: "LocationType already exists." });
+        }
 
     const location = new Location({ name, locationTypeId, description });
     await location.save();

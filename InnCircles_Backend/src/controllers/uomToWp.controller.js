@@ -2,45 +2,6 @@ const WorkPackageUOM = require("../modals/uomToWorkPackages.mongo");
 const WorkPackage = require("../modals/workerPackage.mongo");
 const UnitOfMeasurement = require("../modals/uomManagement.mongo");
 
-// async function httpAddUomsToWP(req, res) {
-//   try {
-//     const { id } = req.params;
-//     const { uomId } = req.body;
-
-//     const workPackageExists = await WorkPackage.findById(id);
-//     if (!workPackageExists) {
-//       return res.status(404).json({ message: "Work Package not found." });
-//     }
-
-//     const uomExists = await UnitOfMeasurement.findById(uomId);
-//     if (!uomExists) {
-//       return res
-//         .status(404)
-//         .json({ message: "Unit of Measurement not found." });
-//     }
-
-//     const existingAssignment = await WorkPackageUOM.findOne({
-//       workerPackageId: id,
-//       uomId,
-//     });
-//     if (existingAssignment) {
-//       return res
-//         .status(400)
-//         .json({ message: "UOM is already assigned to this Work Package." });
-//     }
-
-//     const newAssignment = new WorkPackageUOM({ workerPackageId: id, uomId });
-//     await newAssignment.save();
-
-//     return res.status(201).json({
-//       message: "UOM assigned successfully.",
-//       assignment: newAssignment,
-//     });
-//   } catch (error) {
-//     console.error("Error assigning UOM:", error);
-//     return res.status(500).json({ message: "Server Error" });
-//   }
-// }
 
 async function httpDeleteUomsToWP(req, res) {
   try {

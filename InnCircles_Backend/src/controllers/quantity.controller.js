@@ -28,6 +28,18 @@ async function httpUpdateQuantity(req, res) {
     const { id } = req.params;
     const { workerPackageId, uomId, quantityValue } = req.body;
 
+    if (isNaN(quantityValue) || quantityValue < 0) {
+      return res.status(400).json({
+        message: "Quantity must be a valid non-negative number.",
+      });
+    }
+
+    if (!id || !workerPackageId || !uomId || quantityValue == null) {
+      return res.status(400).json({
+        message: "All fields are required: location, workPackage, uom, quantity.",
+      });
+    }
+
     const locationExists = await Location.findById(id);
     if (!locationExists) {
       return res.status(404).json({ message: "Location not found." });

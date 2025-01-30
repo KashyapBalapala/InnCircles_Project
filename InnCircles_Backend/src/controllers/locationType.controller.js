@@ -1,5 +1,7 @@
 const LocationType = require("../modals/locationType.mongo");
 const Location = require("../modals/location.mongo");
+const WorkerPackage = require("../modals/workerPackage.mongo");
+
 async function httpAddLocationType(req, res) {
   try {
     const { name, description } = req.body;
@@ -58,12 +60,10 @@ async function httpUpdateLocationType(req, res) {
       return res.status(404).json({ message: "LocationType not found." });
     }
 
-    return res
-      .status(200)
-      .json({
-        message: "LocationType updated successfully.",
-        locationType: updatedLocationType,
-      });
+    return res.status(200).json({
+      message: "LocationType updated successfully.",
+      locationType: updatedLocationType,
+    });
   } catch (error) {
     console.error("Error updating LocationType:", error);
     return res.status(500).json({ message: "Server Error" });
@@ -74,14 +74,19 @@ async function httpDeleteLocationType(req, res) {
   try {
     const { id } = req.params;
 
-    const isUsed = await Location.exists({ locationType: id });
-
-    if (isUsed) {
-      return res
-        .status(400)
-        .json({
-          message: "Cannot delete LocationType. It is used in Locations.",
-        });
+    const isUsedInLocations = await Location.exists({ locationTypeId: id });
+    if (isUsedInLocations) {
+      return res.status(400).json({
+        message: "Cannot delete LocationType. It is used in Locations.",
+      });
+    }
+    const isUsedInWorkPackages = await WorkerPackage.exists({
+      locationTypeId: id,
+    });
+    if (isUsedInWorkPackages) {
+      return res.status(400).json({
+        message: "Cannot delete LocationType. It is used in Work Packages.",
+      });
     }
 
     const deletedLocationType = await LocationType.findByIdAndDelete(id);

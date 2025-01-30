@@ -1,5 +1,8 @@
 const { getLocationTypeById } = require("../modals/locationType.modal");
 const workPackagesSchema = require("../modals/workerPackage.mongo");
+const UOMToWorkPackage = require("../modals/uomToWorkPackages.mongo");
+const Quantity = require("../modals/quantity.mongo");
+const Location = require("../modals/location.mongo");
 
 async function httpAddWorkPackage(req, res) {
   try {
@@ -8,6 +11,11 @@ async function httpAddWorkPackage(req, res) {
     if (!locationTypeExsists) {
       return res.status(404).json({ message: "LocationType not found." });
     }
+
+    const existingType = await workPackagesSchema.findOne({ name });
+        if (existingType) {
+          return res.status(400).json({ message: "WorkPackage already exists." });
+        }
 
     const workPackage = new workPackagesSchema({
       name,
@@ -107,6 +115,21 @@ async function httpGetLocationTypeWorkPackages(req, res) {
 async function httpDeleteWorkerPackage(req, res) {
   try {
     const { id } = req.params;
+
+    const isUsedInUOM = await UOMToWorkPackage.exists({ workerPackageId: id });
+    if (isUsedInUOM) {
+      return res.status(400).json({
+        message: "Cannot delete WorkPackage. It has an assigned UOM.",
+      });
+    }
+
+    const isUsedInQuantities = await Quantity.exists({ workerPackageId: id });
+    if (isUsedInQuantities) {
+      return res.status(400).json({
+        message: "Cannot delete WorkPackage. It has assigned quantities.",
+      });
+    }
+
 
     const deletedWorkPackage = await workPackagesSchema.findByIdAndDelete(id);
 

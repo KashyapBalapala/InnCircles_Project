@@ -1,5 +1,6 @@
 const UnitOfMeasurement = require("../modals/uomManagement.mongo");
 const WorkPackage = require("../modals/workerPackage.mongo");
+const UOMToWorkPackage = require("../modals/uomToWorkPackages.mongo");
 
 async function httpAddUOM(req, res) {
   try {
@@ -95,11 +96,11 @@ async function httpDeleteUOM(req, res) {
   try {
     const { id } = req.params;
 
-    const isAssigned = await WorkPackage.exists({ uom: id });
+    const isAssigned = await UOMToWorkPackage.exists({ uomId: id });
 
     if (isAssigned) {
       return res
-        .status(400)
+        .status(400) 
         .json({
           message: "Cannot delete UOM. It is assigned to a Work Package.",
         });
