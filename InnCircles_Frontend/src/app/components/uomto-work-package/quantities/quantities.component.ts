@@ -61,30 +61,57 @@ export class QuantitiesComponent {
       });
   }
 
-  onLocationTypeChange() {
-    if (!this.selectedLocationType) return;
-
-    
+  onLocationSelect(location: any) {
+    this.quantityService
+      .getLocationQuantity(location._id)
+      .pipe(
+        catchError((error) => {
+          alert('An error occurred: ' + error.message);
+          return of([]);
+        })
+      )
+      .subscribe((data: any) => {
+        this.workPackages = this.modifyWorkPackages(data, this.workPackages);
+        console.log(this.workPackages)
+      });
   }
 
-  saveQuantity(location: any, workPackage: any) {
+  modifyWorkPackages(data: any, workPackages: any) {
+    return workPackages.map((wp: any) => {
+      wp.uoms = wp.uoms.map((uom: any) => {
+        const quantityEntry = data.find(
+          (entry: any) =>
+            entry.workerPackageId._id === wp._id && entry.uomId._id === uom._id
+        );
+  
+        return {
+          ...uom,
+          quantityValue: quantityEntry ? quantityEntry.quantityValue : null,
+        };
+      });
+  
+      return wp;
+    });
+  }
+
+  saveQuantity(location: any, workPackage: any, uom: any) {
+    console.log(workPackage);
     const quantityData = {
-      locationId: location._id,
-      workPackageId: workPackage._id,
-      uomId: workPackage.uom._id,
-      quantityValue: workPackage.quantity
+      workerPackageId: workPackage._id,
+      uomId: uom._id,
+      quantityValue: uom.quantityValue
     };
 
-    
-  }
-
-  saveUOM(location: any, wp: any) {
-    
-  }
-
-  dummyUOM: any[] = [];
-  newUOMModal(wp: any) {
-    this.dummyUOM = {...wp.uoms};
-    console.log(this.dummyUOM);
+    this.quantityService
+      .updateQuantity(quantityData, location._id)
+      .pipe(
+        catchError((error) => {
+          alert('An error occurred: ' + error.message);
+          return of([]);
+        })
+      )
+      .subscribe((data: any) => {
+        console.log(data);
+      });
   }
 }
