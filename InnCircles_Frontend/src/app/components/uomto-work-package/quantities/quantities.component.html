@@ -2,9 +2,9 @@
   <h2>Assign Quantities to Work Packages</h2>
 
   <p-accordion *ngIf="locations.length">
-    <p-accordionTab *ngFor="let location of locations" (click)="onLocationSelect(location)">
+    <p-accordionTab *ngFor="let location of locations" >
       <ng-template pTemplate="header">
-        <span >{{ lt + "-" + location.name }}</span>
+        <span (click)="onLocationSelect(location)" >{{ lt + "-" + location.name }}</span>
       </ng-template>
 
       <div class="work-packages-container">
