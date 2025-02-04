@@ -11,6 +11,10 @@ const locationType = new mongoose.Schema({
         type: String,
         trim: true
     },
+    image: {
+        type: String, 
+        contentType: String 
+    },
     createdAt: {
         type: Date,
         default: Date.now,

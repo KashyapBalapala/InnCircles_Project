@@ -1,23 +1,38 @@
 const LocationType = require("../modals/locationType.mongo");
 const Location = require("../modals/location.mongo");
 const WorkerPackage = require("../modals/workerPackage.mongo");
+const upload = require("../config/multer");
 
 async function httpAddLocationType(req, res) {
   try {
     const { name, description } = req.body;
+    const imageFile = req.file;
+
     if (!name) {
       return res.status(400).json({ message: "Name is required." });
     }
+
     const existingType = await LocationType.findOne({ name });
     if (existingType) {
       return res.status(400).json({ message: "LocationType already exists." });
     }
-    const locationType = new LocationType({ name, description });
+
+    let imagePath = "";
+    if (imageFile.filename)
+      imagePath = `http://localhost:5000/uploads/${imageFile.filename}`;
+
+    const locationType = new LocationType({
+      name,
+      description,
+      image: imagePath,
+    });
+
     await locationType.save();
 
-    return res
-      .status(201)
-      .json({ message: "LocationType created successfully.", locationType });
+    return res.status(201).json({
+      message: "LocationType created successfully.",
+      locationType,
+    });
   } catch (error) {
     console.error("Error creating LocationType:", error);
     return res.status(500).json({ message: "Server Error" });
@@ -38,6 +53,7 @@ async function httpUpdateLocationType(req, res) {
   try {
     const { id } = req.params;
     const { name, description } = req.body;
+    const imageFile = req.file;
 
     if (!name) {
       return res.status(400).json({ message: "Name is required." });
@@ -50,9 +66,21 @@ async function httpUpdateLocationType(req, res) {
         .json({ message: "LocationType name already in use." });
     }
 
+    let imagePath = "";
+    if (imageFile && imageFile.filename)
+      imagePath = `http://localhost:5000/uploads/${imageFile.filename}`;
+
+    const newData = {
+      name: name,
+      description: description,
+      image: imagePath,
+    };
+
+    const updateData = { name, description, image: imagePath };
+
     const updatedLocationType = await LocationType.findByIdAndUpdate(
       id,
-      { name, description },
+      updateData,
       { new: true, runValidators: true }
     );
 
@@ -121,8 +149,8 @@ async function httpGetLocationType(req, res) {
 
 module.exports = {
   httpDeleteLocationType,
-  httpUpdateLocationType,
   httpGetLocationTypes,
-  httpAddLocationType,
+  httpAddLocationType: [upload.single("image"), httpAddLocationType],
+  httpUpdateLocationType: [upload.single("image"), httpUpdateLocationType],
   httpGetLocationType,
 };

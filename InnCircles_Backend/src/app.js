@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const path = require("path");
 
 const locationTypeRouter = require('./routes/locationType.router');
 const workPakackageRouter = require('./routes/workPackage.router');
@@ -16,6 +17,8 @@ app.use(cors());
 app.use(morgan('combined'));
 
 app.use(express.json());
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/location-types', locationTypeRouter);
 app.use('/work-packages', workPakackageRouter);
