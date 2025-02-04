@@ -24,17 +24,21 @@ h2 {
 
 .add-location-type {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 20px;
 }
 
 .add-location-type input {
   flex: 1;
+  min-width: 0;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ddd;
   border-radius: 6px;
   outline: none;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .add-location-type button {
@@ -46,7 +50,9 @@ h2 {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
+  white-space: nowrap; /* Prevents text from wrapping */
 }
+
 
 .add-location-type button:hover {
   background-color: #45a049;
@@ -69,18 +75,37 @@ h2 {
   border-radius: 6px;
 }
 
+.location-types-list li div {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
 .location-types-list button {
   padding: 6px 12px;
   font-size: 14px;
-  background-color: #f44336;
+  background-color: #2196f3;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin: 5px;
 }
 
 .location-types-list button:hover {
-  background-color: #e53935;
+  background-color: #1976d2;
+}
+
+.location-types-list .delete {
+  background-color: #f44336;
+}
+
+.location-types-list .delete:hover {
+  background-color: #d32f2f;
+}
+
+.location-types-list img{
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
 }

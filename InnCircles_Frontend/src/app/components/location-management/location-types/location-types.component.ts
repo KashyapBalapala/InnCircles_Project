@@ -19,6 +19,8 @@ export class LocationTypesComponent {
   locationTypes: any[] = [];
   editingState: { [key: number]: boolean } = {};
   newLocationTypeName: string = '';
+  selectedFile: File | null = null;
+  editSelectedFile: File | null = null;
 
   @Output() locationTypeEmitter = new EventEmitter();
 
@@ -44,15 +46,23 @@ export class LocationTypesComponent {
     this.locationTypeEmitter.emit(locationType);
   }
 
+  
   addLocationType() {
     if (this.newLocationTypeName) {
-      const newLocationType: any = {
-        name: this.newLocationTypeName,
-        description: '' 
-      };
-      this.createNewLocation(newLocationType);
-      this.newLocationTypeName = '';
+      const formData = new FormData();
+      formData.append('name', this.newLocationTypeName);
+      
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile); 
+      }
+      console.log(formData)
+      this.createNewLocation(formData);
     }
+  }
+
+  resetForm() {
+    this.newLocationTypeName = '';
+    this.selectedFile = null;
   }
 
   createNewLocation(locationType: any) {
@@ -66,10 +76,11 @@ export class LocationTypesComponent {
     )
     .subscribe((data: any) => {
       this.fetchLocationTypes();
+      this.resetForm();
     });
   }
 
-  toggleEdit(locationType: any, name: any) {
+  toggleEdit(locationType: any) {
     if (this.editingState[locationType._id]) {
       this.editingState[locationType._id] = false;
       this.editLocationType(locationType);
@@ -79,8 +90,14 @@ export class LocationTypesComponent {
   }
 
   editLocationType(locationType: any) {
+    const formData = new FormData();
+    formData.append('name', locationType.name);
+
+    if (this.editSelectedFile) {
+      formData.append('image', this.editSelectedFile);
+    }
     this.locationService
-    .editLocationType(locationType._id, locationType)
+    .editLocationType(locationType._id, formData)
     .pipe(
       catchError((error: any) => {
         alert('An error occurred: ' + error?.error?.message);
@@ -107,5 +124,12 @@ export class LocationTypesComponent {
     });
   }
 
-  
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  onEditFileSelected(event: any, locationType: any) {
+    this.editSelectedFile = event.target.files[0];
+    
+  }
 }

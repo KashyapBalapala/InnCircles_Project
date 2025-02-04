@@ -102,7 +102,7 @@ body {
 .work-packages-list button {
   padding: 6px 12px;
   font-size: 14px;
-  background-color: #f44336;
+  background-color: #007bff; 
   color: white;
   border: none;
   border-radius: 6px;
@@ -112,5 +112,5 @@ body {
 }
 
 .work-packages-list button:hover {
-  background-color: #e53935;
+  background-color: #0056b3; 
 }

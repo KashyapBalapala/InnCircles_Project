@@ -57,7 +57,7 @@ h2 {
 .add-uom button {
   padding: 10px 20px;
   background-color: #4caf50;
-  color: white;
+  color: white; 
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -89,7 +89,7 @@ h2 {
 .uom-list button {
   padding: 6px 12px;
   font-size: 14px;
-  background-color: #f44336;
+  background-color: #007bff; /* Changed to blue */
   color: white;
   border: none;
   border-radius: 6px;
@@ -99,7 +99,7 @@ h2 {
 }
 
 .uom-list button:hover {
-  background-color: #e53935;
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
 .chip {
